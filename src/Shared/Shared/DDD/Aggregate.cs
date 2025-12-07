@@ -16,3 +16,18 @@ public abstract class Aggregate<Tid> : Entity<Tid>, IAggregate<Tid>
         return dequeuedEents;
     }
 }
+
+
+public abstract class AuditableAggregate<T> : Aggregate<T>, IAuditableEntity
+{
+    public DateTime? CreatedAt { get; set; }
+    public string? CreatedBy { get; set; }
+    public DateTime? LastModified { get; set; }
+    public string? LastModifiedBy { get; set; }
+
+    public void AuditChanges(string user)
+    {
+        LastModified = DateTime.UtcNow;
+        LastModifiedBy = user;
+    }
+}

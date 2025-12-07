@@ -1,11 +1,11 @@
 ﻿namespace Shared.DDD;
 
-public interface IEntity<T> : IEntity
+public interface IEntity<T>
 {   
     public T Id { get; set; }
 }
 
-public interface IEntity
+public interface IAuditableEntity
 {
     public DateTime? CreatedAt { get; set; }
     public string? CreatedBy { get; set; }

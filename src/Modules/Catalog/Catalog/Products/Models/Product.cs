@@ -1,5 +1,5 @@
 ﻿namespace Catalog.Products.Models;
-public class Product : Aggregate<Guid>
+public class Product : AuditableAggregate<Guid>
 {
     public string Name { get; private set; } = default!;
     public string Description { get; private set; } = default!;
