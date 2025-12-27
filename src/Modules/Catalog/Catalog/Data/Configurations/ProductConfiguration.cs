@@ -8,6 +8,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(e => e.Description).HasMaxLength(200);
         builder.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
         builder.Property(e => e.ImageFile).HasMaxLength(100);
-        builder.Property(e => e.Category).IsRequired();
+        builder.Property(e => e.Categories).IsRequired();
     }
 }

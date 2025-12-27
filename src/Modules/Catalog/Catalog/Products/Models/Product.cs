@@ -5,9 +5,9 @@ public class Product : AuditableAggregate<Guid>
     public string Description { get; private set; } = default!;
     public decimal Price { get; private set; }
     public string ImageFile { get; private set; } = default!;
-    public List<string> Category { get; private set; } = new();
+    public List<string> Categories { get; private set; } = new();
 
-    public static Product Create(Guid id, string name, List<string> category, string description, string imageFile, decimal price)
+    public static Product Create(Guid id, string name, List<string> categories, string description, string imageFile, decimal price)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
@@ -16,7 +16,7 @@ public class Product : AuditableAggregate<Guid>
         {
             Id = id,
             Name = name,
-            Category = category,
+            Categories = categories,
             Description = description,
             ImageFile = imageFile,
             Price = price
@@ -27,13 +27,13 @@ public class Product : AuditableAggregate<Guid>
         return product;
     }
 
-    public void Update(string name, List<string> category, string description, string imageFile, decimal price)
+    public void Update(string name, List<string> categories, string description, string imageFile, decimal price)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
 
         Name = name;
-        Category = category;
+        Categories = categories;
         Description = description;
         ImageFile = imageFile;
 
