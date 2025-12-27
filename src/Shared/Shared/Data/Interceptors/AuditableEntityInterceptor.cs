@@ -8,47 +8,13 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-
         UpdateEntities(eventData.Context);
-
-        var context = eventData.Context;
-        if (context == null)
-            return base.SavingChanges(eventData, result);
-        var entries = context.ChangeTracker.Entries()
-            .Where(e => e.Entity is IAuditableEntity && (e.State == Microsoft.EntityFrameworkCore.EntityState.Added || e.State == Microsoft.EntityFrameworkCore.EntityState.Modified));
-        var currentTime = DateTime.UtcNow;
-        foreach (var entry in entries)
-        {
-            var auditableEntity = (IAuditableEntity)entry.Entity;
-            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Added)
-            {
-                auditableEntity.CreatedAt = currentTime;
-            }
-            auditableEntity.LastModified = currentTime;
-        }
         return base.SavingChanges(eventData, result);
     }
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         UpdateEntities(eventData.Context);
-
-
-        var context = eventData.Context;
-        if (context == null)
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
-        var entries = context.ChangeTracker.Entries()
-            .Where(e => e.Entity is IAuditableEntity && (e.State == Microsoft.EntityFrameworkCore.EntityState.Added || e.State == Microsoft.EntityFrameworkCore.EntityState.Modified));
-        var currentTime = DateTime.UtcNow;
-        foreach (var entry in entries)
-        {
-            var auditableEntity = (IAuditableEntity)entry.Entity;
-            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Added)
-            {
-                auditableEntity.CreatedAt = currentTime;
-            }
-            auditableEntity.LastModified = currentTime;
-        }
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 

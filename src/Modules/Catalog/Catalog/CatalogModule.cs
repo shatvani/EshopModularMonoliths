@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Data;
+using Shared.Data.Interceptors;
 using Shared.Data.Seed;
 
 namespace Catalog;
@@ -20,9 +21,13 @@ public static class CatalogModule
         // Api Endpoint services
 
         // Application Use Case services
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CatalogModule).Assembly));
 
         // Data - Infrastructure services
         var connectionString = configuration.GetConnectionString("Database");
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         services.AddDbContext<CatalogDbContext>((sp, options) =>
         {
