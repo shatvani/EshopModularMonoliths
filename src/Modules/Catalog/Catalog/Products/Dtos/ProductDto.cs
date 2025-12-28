@@ -6,5 +6,4 @@ public record ProductDto(
     List<string> Categories,
     string Description,
     decimal Price,
-    string ImageFile,
-    string Sku);
+    string ImageFile);
