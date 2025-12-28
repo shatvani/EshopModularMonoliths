@@ -8,7 +8,7 @@ public class GetProductsHandler(CatalogDbContext dbContext) : IQueryHandler<GetP
 {
     public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {
-        var products = await dbContext.Products
+        var productDtos = await dbContext.Products
             .AsNoTracking()
             .OrderBy(product => product.Name)
             .Select(product => new ProductDto(
@@ -20,6 +20,15 @@ public class GetProductsHandler(CatalogDbContext dbContext) : IQueryHandler<GetP
                 product.ImageFile))
             .ToListAsync(cancellationToken);
 
-        return new GetProductsResult(products);
+        // Using Mapster for mapping (if needed in future)
+        // var productDtos = await dbContext.Products
+        //     .AsNoTracking()
+        //     .OrderBy(product => product.Name)
+        //     .ProjectToType<ProductDto>()
+        //     .ToListAsync(cancellationToken); 
+        // OR
+        // var productDtos = products.Adapt<List<ProductDto>>();
+
+        return new GetProductsResult(productDtos);
     }
 }
