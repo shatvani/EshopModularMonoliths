@@ -1,4 +1,4 @@
-namespace EshopModularMonolith.Modules.Catalog.Products.Features.UpdateProduct;
+namespace Catalog.Products.Features.UpdateProduct;
 
 public record UpdateProductCommand(ProductDto Product) : ICommand<UpdateProductResult>;
 
